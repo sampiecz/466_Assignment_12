@@ -38,20 +38,8 @@ int main( int argc, char** argv )
         cerr << "Query did not work." << endl;    
         exit(1);
     }
-    // The only difference between this command and the one above
-    // is the use of length as opposed to a terminating null character.
-    // THis allows binary data which may contain null characters as valid data to be sent.
-    // int mysql_real_query(MYSQL *mysql,
-    //      const char *stmt_str,
-    //      unsigned long length);
 
-    // mysql_num_rows()
-    // unsigned int mysql_field_count(MYSWL *mysql)
-    // my_ulonglong mysql_insert_id(MYSWL *mysql)
-    // How many rows were affected
-    // my_ulonglong mysql_affected_rows(MYSQL *mysql)
-    //
-    // Retreive data from a result set
+    // Create result object and store result from connection in it 
     MYSQL_RES *result = mysql_store_result(connection);
     if( result == NULL )
     {
@@ -59,20 +47,18 @@ int main( int argc, char** argv )
         exit(1);
     }
 
-    // mysql_use_result() is same as PDOStatement::fetch()
-    //
-    // After using the above two commands I have to use
-    // mysql_fetch_row()
-    //
-    // After all that, free up memory with mysql_free_result()
     // Can also download all rows of result set
     // MYSQL_RES *mysql_store_result(MYSQL *mysql);
     // MYSQL_RES *mysql_fetch_row(MYSQL_RES *result)
-    // mysql_row_seek()
-    // MYSQL *mysql_use_result(MYSQL *mysql)
-    //
-    // Get byte lengths for field in row
-    // unsigned long *mysql_fetch_lengths(MYSQL_RES *result)
+
+    // Create a MYSQL_ROW object to store each row
+    // for when I iterate over the result set
+    MYSQL_ROW row;
+
+    while( row = mysql_fetch_row(result) )
+    {
+        cout << row << endl;
+    }
 
 
     // Free up memory
