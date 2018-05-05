@@ -5,11 +5,11 @@
 # DATE DUE: 05/04/18 
 #
 # Compiler variables
-CCFLAGS = -ansi -Wall -std=c++11
+CCFLAGS = -ansi -Wall -std=c++11 -I/usr/include/mysql
 
 # Rule to link object code files to create executable file
 assignment12: assignment12.o
-	g++ $(CCFLAGS) -o assignment12.exe assignment12.o
+	g++ $(CCFLAGS) -L/usr/lib/mysql -lmysqlclient -o assignment12.exe assignment12.o
 
 # Rule to compile source code file to object code
 assignment12.o: assignment12.cc

@@ -12,25 +12,30 @@
 #include <mysql.h>
 using namespace std;
 
+/***************************************************************
+  
+ Name: 
+
+ Use: 
+
+ Parameters: 
+
+ Returns: 
+
+ ***************************************************************/
 int main( int argc, char** argv )
 {
     // Initialize MySQL library
-    int mysql_library_init(0, NULL, NULL);
+    int mysql_library_init(int argc, char** argv, char** groups);
 
     // Initializes and allocates memoery to a MYSQL object
-    MYSQL connection = mysql_init(NULL);
-    if(connection == NULL)
-    {
-        cerr << "Can't connect to DB." << endl;
-        exit(1);
-    }
+    MYSQL *mysql_init(MYSQL *mysql);
 
     // Establish connection
-    if(mysql_real_connect(connection,"courses","z1732715","1996Apr23","z1732715",0,NULL,0) == NULL);
-    {
-        cerr << "Real connect is broken." << endl;
-        exit(1);
-    }
+    MYSQL *mysql_real_connect(MYSQL *mysql, const char *host,
+            const char *user, const char *passwd,
+            const char *db, unsigned int port,
+            const char *unix_socket, unsigned long client_flag);
 
     // Execute SQL statement stored in string
     int mysql_query(MYSQL *mysql, const char* stmt_str);
@@ -55,20 +60,21 @@ int main( int argc, char** argv )
     // mysql_fetch_row()
     //
     // After all that, free up memory with mysql_free_result()
+    //
     // Can also download all rows of result set
-    MYSQL_RES *mysql_store_result(MYSQL *mysql);
+    MYSQL_RES *mysql_store_result(MYSQL *mysql)
     // MYSQL_RES *mysql_fetch_row(MYSQL_RES *result)
     // mysql_row_seek()
     // MYSQL *mysql_use_result(MYSQL *mysql)
     //
     // Get byte lengths for field in row
     // unsigned long *mysql_fetch_lengths(MYSQL_RES *result)
+    //
+    //
 
     // Close previously opened connection
     void mysql_close(MYSQL, *mysql);
 
     // Call to clean up memory after use of MySQL library
     void mysql_library_end(void);
-
-    return 0;
 }
