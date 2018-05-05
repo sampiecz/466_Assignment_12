@@ -15,10 +15,10 @@ using namespace std;
 int main( int argc, char** argv )
 {
     // Initialize MySQL library
-    int mysql_library_init(0, NULL, NULL);
+    mysql_library_init(0, NULL, NULL);
 
     // Initializes and allocates memoery to a MYSQL object
-    MYSQL connection = mysql_init(NULL);
+    MYSQL *connection = mysql_init(NULL);
     if(connection == NULL)
     {
         cerr << "Can't connect to DB." << endl;
@@ -26,20 +26,24 @@ int main( int argc, char** argv )
     }
 
     // Establish connection
-    if(mysql_real_connect(connection,"courses","z1732715","1996Apr23","z1732715",0,NULL,0) == NULL);
+    if( mysql_real_connect(connection, "courses", "z1732715", "1996Apr23", "z1732715", 0, NULL, 0) == NULL );
     {
         cerr << "Real connect is broken." << endl;
         exit(1);
     }
 
     // Execute SQL statement stored in string
-    int mysql_query(MYSQL *mysql, const char* stmt_str);
+    if( mysql_query(connection, "SELECT * FROM ServiceRequest") != 0 )
+    {
+        cerr << "Query did not work." << endl;    
+        exit(1);
+    }
     // The only difference between this command and the one above
     // is the use of length as opposed to a terminating null character.
     // THis allows binary data which may contain null characters as valid data to be sent.
-    int mysql_real_query(MYSQL *mysql,
-            const char *stmt_str,
-            unsigned long length);
+    // int mysql_real_query(MYSQL *mysql,
+    //      const char *stmt_str,
+    //      unsigned long length);
 
     // mysql_num_rows()
     // unsigned int mysql_field_count(MYSWL *mysql)
@@ -56,7 +60,7 @@ int main( int argc, char** argv )
     //
     // After all that, free up memory with mysql_free_result()
     // Can also download all rows of result set
-    MYSQL_RES *mysql_store_result(MYSQL *mysql);
+    // MYSQL_RES *mysql_store_result(MYSQL *mysql);
     // MYSQL_RES *mysql_fetch_row(MYSQL_RES *result)
     // mysql_row_seek()
     // MYSQL *mysql_use_result(MYSQL *mysql)
