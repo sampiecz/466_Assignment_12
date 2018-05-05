@@ -26,7 +26,7 @@ int main( int argc, char** argv )
     }
 
     // Establish connection
-    if( mysql_real_connect(connection, "courses", "z1732715", "1996Apr23", "z1732715", 0, NULL, 0) == NULL );
+    if( mysql_real_connect(connection, "courses", "z1732715", "1996Apr23", "z1732715", 0, NULL, 0) == NULL )
     {
         cerr << "Real connect is broken." << endl;
         exit(1);
@@ -52,7 +52,13 @@ int main( int argc, char** argv )
     // my_ulonglong mysql_affected_rows(MYSQL *mysql)
     //
     // Retreive data from a result set
-    // mysql_store_result() is same as PDOStatement::fetchAll()
+    MYSQL_RES *result = mysql_store_result(connection);
+    if( result == NULL )
+    {
+        cerr << "Couldn't store result." << endl;
+        exit(1);
+    }
+
     // mysql_use_result() is same as PDOStatement::fetch()
     //
     // After using the above two commands I have to use
@@ -68,11 +74,15 @@ int main( int argc, char** argv )
     // Get byte lengths for field in row
     // unsigned long *mysql_fetch_lengths(MYSQL_RES *result)
 
+
+    // Free up memory
+    mysql_free_result(result);
+
     // Close previously opened connection
-    void mysql_close(MYSQL, *mysql);
+    mysql_close(connection);
 
     // Call to clean up memory after use of MySQL library
-    void mysql_library_end(void);
+    mysql_library_end();
 
     return 0;
 }
