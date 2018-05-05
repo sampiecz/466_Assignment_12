@@ -47,17 +47,15 @@ int main( int argc, char** argv )
         exit(1);
     }
 
-    // Can also download all rows of result set
-    // MYSQL_RES *mysql_store_result(MYSQL *mysql);
-    // MYSQL_RES *mysql_fetch_row(MYSQL_RES *result)
-
     // Create a MYSQL_ROW object to store each row
     // for when I iterate over the result set
     MYSQL_ROW row;
 
     while( row = mysql_fetch_row(result) )
     {
-        cout << row << endl;
+        cout << endl;
+        cout << row[0] << " " << row[1] << " " << row[2] << " " << row[3] << " " << row[4] << " " << row[5] << " " << row[6] << " " << row[7] << endl;
+        cout << endl;
     }
 
 
