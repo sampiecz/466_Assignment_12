@@ -33,7 +33,7 @@ int main( int argc, char** argv )
     }
 
     // Execute SQL statement stored in string
-    if( mysql_query(connection, "SELECT * FROM ServiceRequest") != 0 )
+    if( mysql_query(connection, "SELECT m.Name, o.LastName, o.FirstName, o.city, ms.BoatName, sr.Description, sr.Status FROM Marina m JOIN MarinaSlip ms JOIN Owner o JOIN ServiceRequest sr ON m.MarinaNum=ms.MarinaNum AND ms.OwnerNum=o.OwnerNum AND ms.SlipID=sr.SlipID") != 0 )
     {
         cerr << "Query did not work." << endl;    
         exit(1);
@@ -51,13 +51,21 @@ int main( int argc, char** argv )
     // for when I iterate over the result set
     MYSQL_ROW row;
 
-    while( row = mysql_fetch_row(result) )
+    // While I can keep grabbing a new row
+    // from my result set keep outputting
+    // each row's column. Make sure to indent
+    // the data so it can be read easily.
+    while( (row = mysql_fetch_row(result)) )
     {
-        cout << endl;
-        cout << row[0] << " " << row[1] << " " << row[2] << " " << row[3] << " " << row[4] << " " << row[5] << " " << row[6] << " " << row[7] << endl;
+        cout << "Marina Name: " << row[0] << endl;
+        cout << "Owner LastName: " << row[1] << endl;
+        cout << "Owner FirstName: " << row[2] << endl; 
+        cout << "\tOwner City: " << row[3] << endl; 
+        cout << "\tMarina Slip BoatName: " << row[4] << endl;
+        cout << "\t\tService Request Description: " << row[5] << endl;
+        cout << "\t\tService Request Status" << row[6] << endl;
         cout << endl;
     }
-
 
     // Free up memory
     mysql_free_result(result);
